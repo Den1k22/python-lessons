@@ -1,0 +1,100 @@
+Basics
+Python language introduction
+Python 3 basics
+Python The new generation language
+Important difference between python 2.x and python 3.x with example
+Keywords in Python | Set 1, Set 2
+Namespaces and Scope in Python
+Statement, Indentation and Comment in Python
+Structuring Python Programs
+How to check if a string is a valid keyword in Python?
+How to assign values to variables in Python and other languages
+How to print without newline in Python?
+Decision making
+Basic calculator program using Python
+Python Language advantages and applications
+
+Input/Output
+Taking input in Python
+Taking input from console in Python
+Taking multiple inputs from user in Python
+Python Input Methods for Competitive Programming
+Vulnerability in input() function – Python 2.x
+Python | Output using print() function
+How to print without newline in Python?
+Python | end parameter in print()
+Python | sep parameter in print()
+Python | Output Formatting
+
+Data Types
+Introduction to DataTypes
+Strings
+List
+Tuples
+Sets
+Dictionary
+Arrays
+
+Variables
+Variables, expression condition and function
+Maximum possible value of an integer in python?
+Global and local variables in python
+Packing and unpacking arguments in python
+Type conversion in python
+Byte objects vs string in python
+Print single and multiple variable
+Swap variable
+Private variables
+__name__ (A Special variable) in Python
+
+Operators
+Basic operator in python
+Logical and bitwise not operator on boolean
+Ternary operator
+Division operator in python
+Operator Overloading in Python
+Any & all in python
+Inplace and standard operators in python
+Operator function in python | Set – 1
+Inplace operator | Set -1
+Logic Gates in Python
+Python | a += b is not always a = a + b
+Difference between == and is operator in Python
+Python Membership and Identity Operators | in, not in, is, is not
+
+Control Flow
+Loops
+Loops and Control Statements (continue, break and pass) in Python
+Looping technique in python
+range vs xrange on python
+Programs for printing pyramid technique in python
+Chaining comparison in python
+else with for
+switch function
+Using iteration in python effectively
+Python Itertools
+Python __iter__() and __next__() | Converting an object into an iterator
+Python | Difference between iterable and iterator
+Generators in python
+Generators expression in python
+
+Functions
+Functions in Python
+class method vs static method in Python
+Write an empty function in Python – pass statement
+Yield instead of Return
+Return Multiple Values
+Partial Functions in Python
+First Class functions in Python
+Precision Handling
+*args and **kwargs
+Python closures
+Function Decorators
+Decorators in Python
+Decorators with parameters in Python
+Memoization using decorators in Python
+Help function in Python
+Python | __import__() function
+Python | range() does not return an iterator
+Coroutine in Python
+Python bit functions on int (bit_length, to_bytes and from_bytes)
