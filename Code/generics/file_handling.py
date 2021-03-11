@@ -27,8 +27,8 @@ print(f.read())  # example of reading the file
 
 f.close()  # always close the file
 
-
-f = open("file_name", "option")  # options: w - open file for writing, r - open file for reading
+option = "w"
+f = open("file_name", option)  # options: w - open file for writing, r - open file for reading
 f.write("line to file")
 f.read()  # reads everything from current cursor position till EOF and returns everything in one string
 f.readline()  # readline() - reads line from current cursor position till end of line(\n) or EOF

@@ -1,9 +1,9 @@
 
+
 # example of the list
 my_list = ["pen", "pencil", "paper", "rock"]
 for item in my_list:
   print(item)
-
 
 
 # in the next example user enters items and when he will finish the entered items will be displayed
@@ -19,7 +19,6 @@ while (True):
 print("User's inventory: ", end="")
 # symbol * tells python to take each element from the list individualy
 print(*users_inventory, sep=", ")
-
 
 
 # remove element from list with .pop
