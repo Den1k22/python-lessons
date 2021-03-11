@@ -130,3 +130,5 @@ dmypy.json
 
 # custom ignore
 .DS_Store
+.vscode/
+sandbox.py
