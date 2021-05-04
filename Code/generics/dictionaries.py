@@ -12,6 +12,9 @@ phone_book["New_name"] = "678"
 print("2:", phone_book)
 # 2: {'Bob': '123', 'Patrick': '345', 'New_name': '678'}
 
-phone_book.pop("Bob")
+removed_record = phone_book.pop("Bob")
 print("3:", phone_book)
 # 3: {'Patrick': '345', 'New_name': '678'}
+
+print("4:", removed_record)
+# 4: 123
