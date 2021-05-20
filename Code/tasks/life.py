@@ -5,6 +5,7 @@ import time
 
 ALIVE = 'o'
 DEAD = ' '
+# LIST_OF_NEIGHBORS = [[-1,-1], [-1,0], [-1,+1], [0,-1], [0,+1], [+1,-1], [+1,0], [+1,+1]]
 
 
 def create_empty_field(field_size, symbol='.'):
@@ -39,6 +40,11 @@ def print_field(field, field_size):
 
 def countNeighbors(field, field_cell_x, field_cell_y):
   neighbors = 0
+
+  # for neighbor in LIST_OF_NEIGHBORS:
+  #   if (field[field_cell_y + neighbor[0]][field_cell_x + neighbor[1]] == ALIVE):
+  #     neighbors += 1
+
   if (field[field_cell_y - 1][field_cell_x - 1] == ALIVE):
     neighbors += 1
   if (field[field_cell_y - 1][field_cell_x    ] == ALIVE):
@@ -55,11 +61,13 @@ def countNeighbors(field, field_cell_x, field_cell_y):
     neighbors += 1
   if (field[field_cell_y + 1][field_cell_x + 1] == ALIVE):
     neighbors += 1
+
   return neighbors
 
 
 def updateField(field, field_size):
   new_field = create_empty_field(field_size+2, DEAD)
+
   for field_cell_y in range(1, field_size + 1):
     for field_cell_x in range(1, field_size + 1):
       neighbors = countNeighbors(field, field_cell_x, field_cell_y)
@@ -74,7 +82,11 @@ def updateField(field, field_size):
           new_field[field_cell_y][field_cell_x] = ALIVE
         else:
           new_field[field_cell_y][field_cell_x] = DEAD
-  return new_field
+
+  # field = new_field # this does not work,
+  # because here we change where points function's field variable not main loop's field variable
+  field.clear()
+  field.extend(new_field)
 
 
 def main():
@@ -87,7 +99,7 @@ def main():
   while True:
     clear_screen()
     print_field(field, field_size)
-    field = list(updateField(field, field_size))
-    time.sleep(0.5)
+    updateField(field, field_size)
+    time.sleep(0.1)
 
 main()
