@@ -26,6 +26,31 @@ def randomizeField(field, field_size):
         field[field_cell_y][field_cell_x] = ALIVE
 
 
+def loadFile(field, field_size):
+  f = open("glider_gun.txt", "r")
+  file_text = f.readlines()
+  f.close()
+
+  table = []
+  for line in file_text:
+    splited_line = line.split(sep=',')
+    table.append(splited_line)
+
+  table_max_width = len(file_text[0].split(sep=','))
+  table_max_height = len(file_text)
+
+  for field_cell_y in range(1, field_size + 1):
+    for field_cell_x in range(1, field_size + 1):
+      if (field_cell_y > table_max_height) or (field_cell_x > table_max_width):
+        field[field_cell_y][field_cell_x] = DEAD
+        continue
+
+      if table[field_cell_y - 1][field_cell_x - 1] == '*':
+        field[field_cell_y][field_cell_x] = ALIVE
+      else:
+        field[field_cell_y][field_cell_x] = DEAD
+
+
 def clear_screen():
   print(chr(27) + "[2J")
 
@@ -90,11 +115,11 @@ def updateField(field, field_size):
 
 
 def main():
-  field_size = 30
+  field_size = 40
 
   field = create_empty_field(field_size+2, DEAD)
 
-  randomizeField(field, field_size)
+  loadFile(field, field_size)
 
   while True:
     clear_screen()
