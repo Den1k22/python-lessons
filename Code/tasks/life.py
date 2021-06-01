@@ -8,13 +8,13 @@ DEAD = ' '
 # LIST_OF_NEIGHBORS = [[-1,-1], [-1,0], [-1,+1], [0,-1], [0,+1], [+1,-1], [+1,0], [+1,+1]]
 
 
-def create_empty_field(field_size, symbol='.'):
+def create_empty_field(field_size, empty_cell_symbol='.'):
   # return [[symbol for x in range(field_size)] for y in range(field_size)]
   new_list = []
   for row in range(field_size):
     row_list = []
     for column in range(field_size):
-      row_list.append(symbol)
+      row_list.append(empty_cell_symbol)
     new_list.append(row_list)
   return new_list
 
