@@ -11,15 +11,16 @@ SCREEN_MIN_Y = 0
 SCREEN_MAX_Y = 500
 
 class Circle:
-  def __init__(self, x, y, direction_x, direction_y, radius):
+  def __init__(self, x, y, direction_x, direction_y, radius, color):
     self.x = x
     self.y = y
     self.d_x = direction_x
     self.d_y = direction_y
     self.radius = radius
+    self.color = color
 
   def draw(self, screen):
-    pygame.draw.circle(screen, (0, 0, 255), (self.x, self.y), self.radius)
+    pygame.draw.circle(screen, (self.color[0], self.color[1], self.color[2]), (self.x, self.y), self.radius)
 
   def move(self):
     if (self.x <= SCREEN_MIN_X + self.radius) or (self.x >= SCREEN_MAX_X - self.radius):
@@ -45,7 +46,8 @@ for i in range(10):
   y = random.randint(SCREEN_MIN_Y + radius, SCREEN_MAX_Y - radius)
   direction_x = random.random() * 5
   direction_y = random.random() * 5
-  circles.append(Circle(x, y, direction_x, direction_y, radius))
+  color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+  circles.append(Circle(x, y, direction_x, direction_y, radius, color))
 
 # Run until the user asks to quit
 running = True
