@@ -10,13 +10,14 @@ SCREEN_MAX_Y = 500
 
 
 class Circle:
-  def __init__(self, x, y, direction_x, direction_y, radius, color):
+  def __init__(self, x, y, direction_x, direction_y, radius, color, velocity = 1):
     self.x = x
     self.y = y
     self.d_x = direction_x
     self.d_y = direction_y
     self.radius = radius
     self.color = color
+    self.velocity = velocity
 
   def draw(self, screen):
     pygame.draw.circle(
@@ -29,12 +30,15 @@ class Circle:
     if (self.y <= SCREEN_MIN_Y + self.radius) or (self.y >= SCREEN_MAX_Y - self.radius):
       self.d_y = -self.d_y
 
-    self.x += 1 * self.d_x
-    self.y += 1 * self.d_y
+    self.x += self.velocity * self.d_x
+    self.y += self.velocity * self.d_y
+
+  def update_velocity(self, velocity):
+    self.velocity += velocity
 
 
 class Rectangle:
-  def __init__(self, x, y, width, height, d_x, d_y, color):
+  def __init__(self, x, y, width, height, d_x, d_y, color, velocity = 1):
     self.x = x
     self.y = y
     self.width = width
@@ -42,6 +46,7 @@ class Rectangle:
     self.d_x = d_x
     self.d_y = d_y
     self.color = color
+    self.velocity = velocity
 
   def move(self):
     if (self.x >= SCREEN_MAX_X - self.width) or (self.x <= SCREEN_MIN_X):
@@ -50,13 +55,20 @@ class Rectangle:
     if (self.y >= SCREEN_MAX_Y - self.height) or (self.y <= SCREEN_MIN_Y):
       self.d_y = -self.d_y
 
-    self.x += 1 * self.d_x  # use velocity like this: self.x += self.velocity * self.d_x
-    self.y += 1 * self.d_y
+    self.x += self.velocity * self.d_x
+    self.y += self.velocity * self.d_y
 
   def draw(self, screen):
     pygame.draw.rect(screen, (self.color[0], self.color[1], self.color[2]),
                      (self.x, self.y, self.width, self.height), 0)
 
+  def update_velocity(self, velocity):
+    self.velocity += velocity
+
+
+def change_velocity(figures, velocity):
+  for figure in figures:
+    figure.update_velocity(velocity)
 
 pygame.init()
 
@@ -92,6 +104,11 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+          if event.key == pygame.K_UP:
+            change_velocity(figures, 1)
+          if event.key == pygame.K_DOWN:
+            change_velocity(figures, -1)
 
     screen.fill((255, 255, 255))
 
