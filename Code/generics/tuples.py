@@ -12,4 +12,5 @@ print(c)
 # paper
 
 # can not do next
-# my_list.add("car")  # 'tuple' object has no attribute 'add'
+
+# my_tuple.add("car")  # 'tuple' object has no attribute 'add'

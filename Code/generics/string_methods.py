@@ -32,8 +32,8 @@ numbers = users_input.split(" ")
 if (len(numbers) < 2): # check that there are more than 1 number
   print("There are not enough numbers")
 elif (numbers[0].isnumeric() and numbers[1].isnumeric()): # check that they are numbers
-  print("First number: ", int(numbers[0]))
-  print("Second number: ", int(numbers[1]))
+  print(f"First number: {int(numbers[0])}")
+  print(f"Second number: {int(numbers[1])}")
 else:
   print("Incorrect numbers")
 print("========")

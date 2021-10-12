@@ -18,7 +18,7 @@ print(my_set)
 text = """
   This file contains different words which can repeat
   This file contains different words which can repeat or not
-  This file contains different words which can repeat
+  This file contains different words which can repeat, this
   """
 
 # Let's find uniq words:
@@ -36,10 +36,13 @@ for word in uniq_words:
   # here we use list comprehension to create list of only letters and numbers
   word_as_list = [letter for letter in word if letter.isalnum()]
 
-  pure_word = ''.join(word_as_list)
+  # word_as_list as example: different => ['d', 'i', 'f', 'f', 'e', 'r', 'e', 'n', 't']
+
+  pure_word = "".join(word_as_list)
 
   if pure_word != "":
     pure_uniq_words.add(pure_word)
 
 print(pure_uniq_words)
 # {'which', 'or', 'different', 'not', 'repeat', 'This', 'can', 'contains', 'file', 'words'}
+# {'This', 'contains', 'not', 'this', 'different', 'repeat', 'file', 'can', 'or', 'which', 'words'}
