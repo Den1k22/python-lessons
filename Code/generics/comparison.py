@@ -9,4 +9,3 @@ elif(question1 < question2):
   print(question1, "<", question2)
 else:
   print(question1, "=", question2)
-10
