@@ -8,6 +8,9 @@ phone_book = {
 print("1:", phone_book)
 # 1: {'Bob': '123', 'Patrick': '345'}
 
+print(phone_book["Patrick"])
+# 345
+
 phone_book["New_name"] = "678"
 print("2:", phone_book)
 # 2: {'Bob': '123', 'Patrick': '345', 'New_name': '678'}
