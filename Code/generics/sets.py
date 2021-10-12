@@ -27,7 +27,7 @@ for word in text.split(" "):
   uniq_words.add(word)
 
 print(uniq_words)
-# {'', 'different', 'This', 'contains', 'words', 'or', 'which', 'repeat', 'can', 'repeat\n', '\n', 'not\n', 'file'}
+# {'', 'which', 'repeat\n', 'repeat', 'This', 'contains', 'words', 'can', 'or', 'not\n', 'repeat,', 'different', 'file', 'this\n', '\n'}
 
 # we need uniq words, that means that we need to remove empty string and special characters
 pure_uniq_words = set()
@@ -44,5 +44,4 @@ for word in uniq_words:
     pure_uniq_words.add(pure_word)
 
 print(pure_uniq_words)
-# {'which', 'or', 'different', 'not', 'repeat', 'This', 'can', 'contains', 'file', 'words'}
-# {'This', 'contains', 'not', 'this', 'different', 'repeat', 'file', 'can', 'or', 'which', 'words'}
+# {'not', 'which', 'repeat', 'This', 'contains', 'words', 'can', 'this', 'or', 'different', 'file'}
