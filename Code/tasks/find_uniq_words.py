@@ -29,8 +29,15 @@ for word in uniq_words:
     pure_uniq_words.add(pure_word)
 
 print(pure_uniq_words)
-# {'which', 'or', 'different', 'not', 'repeat', 'This', 'can', 'contains', 'file', 'words'}
 # {'This', 'contains', 'not', 'this', 'different', 'repeat', 'file', 'can', 'or', 'which', 'words'}
 
 # TASK: create set where will be uniq words without similar words like "This" and "this".
 # How to do: change case for each word from "pure_uniq_words" to lower case and add this to set.
+
+pure_uniq_words_with_same_case = set()
+
+for word in pure_uniq_words:
+  pure_uniq_words_with_same_case.add(word.lower())
+
+print(pure_uniq_words_with_same_case)
+# {'repeat', 'contains', 'file', 'words', 'not', 'or', 'which', 'this', 'can', 'different'}
