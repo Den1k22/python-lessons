@@ -1,6 +1,5 @@
 
 import pygame
-import time
 import random
 
 SCREEN_MIN_X = 0
@@ -8,6 +7,8 @@ SCREEN_MAX_X = 500
 SCREEN_MIN_Y = 0
 SCREEN_MAX_Y = 500
 FPS = 60
+
+VELOCITY_COEFFICIENT = 0.1
 
 
 class Figure:
@@ -20,11 +21,26 @@ class Figure:
     self.velocity = velocity
 
   def move(self):
-    self.x += self.velocity * self.d_x
-    self.y += self.velocity * self.d_y
+    self.x += self.velocity * self.d_x * VELOCITY_COEFFICIENT
+    self.y += self.velocity * self.d_y * VELOCITY_COEFFICIENT
 
   def update_velocity(self, velocity):
     self.velocity += velocity
+
+  def stop_figure(self):
+    self.velocity = 0;
+
+  def update_color(self, color):
+    new_color = []
+    for sub_color in self.color:
+      new_sub_color = sub_color + color
+
+      if (new_sub_color < 0 or new_sub_color > 255):
+        new_sub_color = sub_color
+
+      new_color.append(new_sub_color)
+
+    self.color = (new_color[0], new_color[1], new_color[2])
 
 
 class Circle(Figure):
@@ -72,10 +88,12 @@ def change_velocity(figures, velocity): # velocity can be 1 or -1
     figure.update_velocity(velocity)
 
 def change_color(figures, color):
-  pass
+  for figure in figures:
+    figure.update_color(color)
 
 def stop_figures(figures):
-  pass
+  for figure in figures:
+    figure.stop_figure()
 
 def init_figures():
   figures = []
@@ -100,27 +118,30 @@ def init_figures():
     color = (random.randint(0, 255), random.randint(
         0, 255), random.randint(0, 255))
     figures.append(Rectangle(x, y, width, height,
-                            direction_x, direction_y, color))
+                             direction_x, direction_y, color))
 
   return figures
 
+def main():
+  pygame.init()
+  screen = pygame.display.set_mode([SCREEN_MAX_X, SCREEN_MAX_Y])
 
-pygame.init()
-screen = pygame.display.set_mode([SCREEN_MAX_X, SCREEN_MAX_Y])
+  figures = init_figures()
 
-figures = init_figures()
-
-clock = pygame.time.Clock()
-running = True
-while running:
+  clock = pygame.time.Clock()
+  running = True
+  while running:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+      if event.type == pygame.QUIT:
+        running = False
 
     keystate = pygame.key.get_pressed()
     direction = keystate[pygame.K_UP] - keystate[pygame.K_DOWN]
     color = keystate[pygame.K_RIGHT] - keystate[pygame.K_LEFT]
     stop = keystate[pygame.K_SPACE]
+
+    if keystate[pygame.K_ESCAPE]:
+      running = False
 
     if (direction != 0):
       change_velocity(figures, direction)
@@ -141,4 +162,7 @@ while running:
 
     clock.tick(FPS)
 
-pygame.quit()
+  pygame.quit()
+
+if __name__ == "__main__":
+  main()
