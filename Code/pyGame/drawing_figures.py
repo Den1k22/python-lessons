@@ -1,6 +1,7 @@
 
-import pygame
 import random
+import pygame
+
 
 SCREEN_MIN_X = 0
 SCREEN_MAX_X = 500
@@ -28,7 +29,7 @@ class Figure:
     self.velocity += velocity
 
   def stop_figure(self):
-    self.velocity = 0;
+    self.velocity = 0
 
   def update_color(self, color):
     new_color = []
@@ -98,7 +99,7 @@ def stop_figures(figures):
 def init_figures():
   figures = []
 
-  for i in range(10):
+  for _ in range(10):
     radius = random.randint(10, 100)
     x = random.randint(SCREEN_MIN_X + radius, SCREEN_MAX_X - radius)
     y = random.randint(SCREEN_MIN_Y + radius, SCREEN_MAX_Y - radius)
@@ -108,7 +109,7 @@ def init_figures():
         0, 255), random.randint(0, 255))
     figures.append(Circle(x, y, direction_x, direction_y, radius, color))
 
-  for i in range(10):
+  for _ in range(10):
     width = random.randint(10, 100)
     height = random.randint(10, 100)
     x = random.randint(SCREEN_MIN_X + width, SCREEN_MAX_X - width)
@@ -143,13 +144,13 @@ def main():
     if keystate[pygame.K_ESCAPE]:
       running = False
 
-    if (direction != 0):
+    if direction != 0:
       change_velocity(figures, direction)
 
-    if (color != 0):
+    if color != 0:
       change_color(figures, color)
 
-    if (stop != 0):
+    if stop != 0:
       stop_figures(figures)
 
     screen.fill((255, 255, 255))
