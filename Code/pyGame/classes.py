@@ -13,17 +13,29 @@ class Circle:
   def do_something(self):
     print("working", self.number)
 
-circle = Circle()
+object_circle = Circle()
 
-print(circle)
+print(object_circle)
+
+circle_text = str(object_circle)
+
+object_circle.do_something()
+object_circle.do_something()
+object_circle.do_something()
+
+object_circle.__init__()
+object_circle.do_something()
+object_circle.do_something()
 
 
-circle_text = str(circle)
+class Square:
+  square_variable = 5
 
-circle.do_something()
-circle.do_something()
-circle.do_something()
+  def show_variable(self):
+    print(self.square_variable)
 
-circle.__init__()
-circle.do_something()
-circle.do_something()
+object_square = Square()
+
+print(object_square)
+
+object_square.show_variable()
