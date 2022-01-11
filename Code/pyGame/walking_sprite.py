@@ -24,11 +24,21 @@ class Player(pygame.sprite.Sprite):
     self.pos = (self.pos[0] + d_x, self.pos[1] + d_y)
     self.rect = self.image.get_rect(center=self.pos)
 
+    # Keep player on the screen
+    if self.rect.left < 0:
+      self.rect.left = 0
+    elif self.rect.right > SCREEN_MAX_X:
+      self.rect.right = SCREEN_MAX_X
+    if self.rect.top <= 0:
+      self.rect.top = 0
+    elif self.rect.bottom >= SCREEN_MAX_Y:
+      self.rect.bottom = SCREEN_MAX_Y
+
 def main():
   pygame.init()
   screen = pygame.display.set_mode([SCREEN_MAX_X, SCREEN_MAX_Y])
 
-  player_image = pygame.image.load("Code/pyGame/player.png").convert_alpha()
+  player_image = pygame.image.load("player.png").convert_alpha()
   player = Player((250, 250), player_image)
 
   clock = pygame.time.Clock()
