@@ -1,5 +1,4 @@
 
-from pickle import FALSE, TRUE
 import pygame
 
 SCREEN_MIN_X = 0
@@ -122,7 +121,7 @@ class Bullet:
   def draw(self, screen):
     pygame.draw.rect(screen, (255, 0, 0), (self.x, self.y, self.width, self.height), 0)
 
-  def collide(self, players):
+  def collide(self, player):
     pass
 
 def main():
@@ -187,6 +186,12 @@ def main():
 
     for bullet in bullets:
       bullet.move()
+      if bullet.collide(player1):
+        # player2 won
+        pass
+      elif bullet.collide(player2):
+        # player1 won
+        pass
 
     screen.fill((255, 255, 255))
 
