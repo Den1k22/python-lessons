@@ -130,10 +130,7 @@ class Bullet:
 
     return False
 
-def main():
-  pygame.init()
-  screen = pygame.display.set_mode([SCREEN_MAX_X, SCREEN_MAX_Y])
-
+def main_game(screen) -> str:
   player_width = 50
   player_height = 50
 
@@ -152,23 +149,20 @@ def main():
 
   clock = pygame.time.Clock()
   running = True
-  pressed_quit = False
   while running:
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
         running = False
-        pressed_quit = True
 
       if event.type == pygame.KEYDOWN:
-          if event.key == pygame.K_ESCAPE:
-            running = False
-            pressed_quit = True
+        if event.key == pygame.K_ESCAPE:
+          running = False
 
-          if event.key == pygame.K_e:
-              player_1_shoot = True
+        if event.key == pygame.K_e:
+            player_1_shoot = True
 
-          if event.key == pygame.K_SPACE:
-              player_2_shoot = True
+        if event.key == pygame.K_SPACE:
+            player_2_shoot = True
 
     keystate = pygame.key.get_pressed()
     direction_x1 = keystate[pygame.K_RIGHT] - keystate[pygame.K_LEFT]
@@ -210,7 +204,6 @@ def main():
     for bullet in bullets:
       bullet.move()
 
-
     screen.fill((255, 255, 255))
 
     for object in objects:
@@ -223,13 +216,21 @@ def main():
 
     clock.tick(FPS)
 
-  running = not pressed_quit
+  return winner_text
+
+
+def end_game_message(screen, winner_text) -> bool:
+  clock = pygame.time.Clock()
+  running = True
+  continue_game = False
   while running:
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
         running = False
 
       if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_r:
+          continue_game = True
         running = False
 
     screen.fill((255, 255, 255))
@@ -237,18 +238,40 @@ def main():
     exit_message_font = pygame.font.SysFont("Verdana", 24)
     exit_message_surface = exit_message_font.render(
         "Press any button to exit", True, (0, 0, 0))
+
     score_font = pygame.font.SysFont("Verdana", 32)
     score_font.bold = True
     score_surface = score_font.render(winner_text, True, (0, 0, 0))
 
+    restart_game_message_font = pygame.font.SysFont("Verdana", 24)
+    restart_game_message_surface = restart_game_message_font.render(
+        "Press R to restart", True, (0, 0, 0))
+
     screen.blit(exit_message_surface, (SCREEN_MAX_X/2 -
                 exit_message_surface.get_width()/2, 10))
+    screen.blit(restart_game_message_surface, (SCREEN_MAX_X/2 -
+                restart_game_message_surface.get_width()/2, 50))
     screen.blit(score_surface, (SCREEN_MAX_X/2 -
                 score_surface.get_width()/2, SCREEN_MAX_Y/2 - score_surface.get_height()/2))
 
     pygame.display.flip()
 
     clock.tick(FPS)
+
+  return continue_game
+
+def main():
+  pygame.init()
+  screen = pygame.display.set_mode([SCREEN_MAX_X, SCREEN_MAX_Y])
+
+  while True:
+    winner_text = main_game(screen)
+
+    if winner_text == "":
+      break
+
+    if not end_game_message(screen, winner_text):
+      break
 
   pygame.quit()
 
