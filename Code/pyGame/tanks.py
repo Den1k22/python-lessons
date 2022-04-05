@@ -111,7 +111,7 @@ class Bullet:
     else:
       self.x -= BULLET_SPEED
 
-  def still_on_screen(self):
+  def still_on_screen(self) -> bool:
     if ((self.x + self.width < SCREEN_MIN_X) or (self.x > SCREEN_MAX_X)
          or (self.y + self.height < SCREEN_MIN_Y) or (self.y > SCREEN_MAX_Y)):
       return False
@@ -121,8 +121,14 @@ class Bullet:
   def draw(self, screen):
     pygame.draw.rect(screen, (255, 0, 0), (self.x, self.y, self.width, self.height), 0)
 
-  def collide(self, player):
-    pass
+  def collide(self, player) -> bool:
+    if (self.x + self.width > player.x and
+        self.x < player.x + player.width and
+        self.y + self.height > player.y and
+        self.y < player.y + player.height):
+      return True
+
+    return False
 
 def main():
   pygame.init()
@@ -142,15 +148,22 @@ def main():
 
   player_1_shoot = False
   player_2_shoot = False
+  winner_text = ""
 
   clock = pygame.time.Clock()
   running = True
+  pressed_quit = False
   while running:
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
         running = False
+        pressed_quit = True
 
       if event.type == pygame.KEYDOWN:
+          if event.key == pygame.K_ESCAPE:
+            running = False
+            pressed_quit = True
+
           if event.key == pygame.K_e:
               player_1_shoot = True
 
@@ -180,18 +193,23 @@ def main():
 
     remain_bullets = []
     for bullet in bullets:
+      if bullet.collide(player1):
+        winner_text = "player2 won"
+        running = False
+        break
+      elif bullet.collide(player2):
+        winner_text = "player1 won"
+        running = False
+        break
+
       if bullet.still_on_screen():
         remain_bullets.append(bullet)
+
     bullets = remain_bullets
 
     for bullet in bullets:
       bullet.move()
-      if bullet.collide(player1):
-        # player2 won
-        pass
-      elif bullet.collide(player2):
-        # player1 won
-        pass
+
 
     screen.fill((255, 255, 255))
 
@@ -200,6 +218,33 @@ def main():
 
     for bullet in bullets:
       bullet.draw(screen)
+
+    pygame.display.flip()
+
+    clock.tick(FPS)
+
+  running = not pressed_quit
+  while running:
+    for event in pygame.event.get():
+      if event.type == pygame.QUIT:
+        running = False
+
+      if event.type == pygame.KEYDOWN:
+        running = False
+
+    screen.fill((255, 255, 255))
+
+    exit_message_font = pygame.font.SysFont("Verdana", 24)
+    exit_message_surface = exit_message_font.render(
+        "Press any button to exit", True, (0, 0, 0))
+    score_font = pygame.font.SysFont("Verdana", 32)
+    score_font.bold = True
+    score_surface = score_font.render(winner_text, True, (0, 0, 0))
+
+    screen.blit(exit_message_surface, (SCREEN_MAX_X/2 -
+                exit_message_surface.get_width()/2, 10))
+    screen.blit(score_surface, (SCREEN_MAX_X/2 -
+                score_surface.get_width()/2, SCREEN_MAX_Y/2 - score_surface.get_height()/2))
 
     pygame.display.flip()
 
