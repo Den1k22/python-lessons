@@ -92,6 +92,18 @@ class Player:
 
     pygame.draw.rect(screen, (255, 0, 0), direction_figure_rect, 0)
 
+
+class Wall:
+  def __init__(self, x, y, width, height):
+    self.x = x
+    self.y = y
+    self.width = width
+    self.height = height
+
+  def draw(self, screen):
+    pygame.draw.rect(screen, (128, 16, 32),
+                     (self.x, self.y, self.width, self.height), 0)
+
 class Bullet:
   def __init__(self, x, y, direction):
     self.x = x - 5
@@ -118,6 +130,13 @@ class Bullet:
 
     return True
 
+  def collides_with_walls(self, walls) -> bool:
+    for wall in walls:
+      if self.collide(wall):
+        return True
+
+    return False
+
   def draw(self, screen):
     pygame.draw.rect(screen, (255, 0, 0), (self.x, self.y, self.width, self.height), 0)
 
@@ -143,6 +162,10 @@ def main_game(screen) -> str:
   objects = []
   objects.append(player1)
   objects.append(player2)
+
+  walls = []
+  walls.append(Wall(150, 150, 200, 200))
+  objects.extend(walls)
 
   bullets = []
 
@@ -195,6 +218,8 @@ def main_game(screen) -> str:
         continue
       elif bullet.collide(player2):
         player2_health -= 1
+        continue
+      elif bullet.collides_with_walls(walls):
         continue
 
       if bullet.still_on_screen():
