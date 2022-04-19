@@ -137,6 +137,9 @@ def main_game(screen) -> str:
   player1 = Player(50, 50, player_width, player_height, (0, 0, 255))
   player2 = Player(400, 400, player_width, player_height, (0, 255, 0))
 
+  player1_health = 3
+  player2_health = 3
+
   objects = []
   objects.append(player1)
   objects.append(player2)
@@ -158,10 +161,10 @@ def main_game(screen) -> str:
         if event.key == pygame.K_ESCAPE:
           running = False
 
-        if event.key == pygame.K_e:
+        if event.key == pygame.K_SPACE:
             player_1_shoot = True
 
-        if event.key == pygame.K_SPACE:
+        if event.key == pygame.K_e:
             player_2_shoot = True
 
     keystate = pygame.key.get_pressed()
@@ -188,18 +191,23 @@ def main_game(screen) -> str:
     remain_bullets = []
     for bullet in bullets:
       if bullet.collide(player1):
-        winner_text = "player2 won"
-        running = False
-        break
+        player1_health -= 1
+        continue
       elif bullet.collide(player2):
-        winner_text = "player1 won"
-        running = False
-        break
+        player2_health -= 1
+        continue
 
       if bullet.still_on_screen():
         remain_bullets.append(bullet)
 
     bullets = remain_bullets
+
+    if player1_health <= 0:
+      winner_text = "player2 won"
+      running = False
+    elif player2_health <= 0:
+      winner_text = "player1 won"
+      running = False
 
     for bullet in bullets:
       bullet.move()
@@ -211,6 +219,18 @@ def main_game(screen) -> str:
 
     for bullet in bullets:
       bullet.draw(screen)
+
+    player1_score_font = pygame.font.SysFont("Verdana", 20)
+    player1_score_surface = player1_score_font.render(
+        str(player1_health), True, (0, 0, 0))
+    screen.blit(player1_score_surface, (SCREEN_MAX_X/4 - player1_score_surface.get_width()/2,
+                SCREEN_MAX_Y - player1_score_surface.get_height() - 10))
+
+    player2_score_font = pygame.font.SysFont("Verdana", 20)
+    player2_score_surface = player2_score_font.render(
+        str(player2_health), True, (0, 0, 0))
+    screen.blit(player2_score_surface, (SCREEN_MAX_X-SCREEN_MAX_X/4 - player2_score_surface.get_width()/2,
+                SCREEN_MAX_Y - player2_score_surface.get_height() - 10))
 
     pygame.display.flip()
 
