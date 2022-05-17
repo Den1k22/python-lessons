@@ -19,6 +19,7 @@ class Player:
     self.height = height
     self.color = color
     self.direction = 0
+    self.health = 3
 
   def move(self, d_x, d_y, other_figures):
     if d_x == 1:
@@ -93,6 +94,15 @@ class Player:
 
     pygame.draw.rect(screen, (255, 0, 0), direction_figure_rect, 0)
 
+  def damage(self, damage=1):
+    self.health -= damage
+    self.color = tuple(ti/1.5 for ti in self.color)
+
+  def is_alive(self):
+    return self.health > 0
+
+  def get_health(self):
+    return self.health
 
 class Wall:
   def __init__(self, x, y, width, height):
@@ -207,9 +217,6 @@ def main_game(screen) -> str:
   objects.append(player1)
   objects.append(player2)
 
-  player1_health = 3
-  player2_health = 3
-
   bullets = []
 
   player_1_shoot = False
@@ -257,10 +264,10 @@ def main_game(screen) -> str:
     remain_bullets = []
     for bullet in bullets:
       if bullet.collide(player1):
-        player1_health -= 1
+        player1.damage()
         continue
       elif bullet.collide(player2):
-        player2_health -= 1
+        player2.damage()
         continue
       elif bullet.collides_with_walls(walls):
         continue
@@ -270,10 +277,10 @@ def main_game(screen) -> str:
 
     bullets = remain_bullets
 
-    if player1_health <= 0:
+    if not player1.is_alive():
       winner_text = "player2 won"
       running = False
-    elif player2_health <= 0:
+    elif not player2.is_alive():
       winner_text = "player1 won"
       running = False
 
@@ -290,13 +297,13 @@ def main_game(screen) -> str:
 
     player1_score_font = pygame.font.SysFont("Verdana", 20)
     player1_score_surface = player1_score_font.render(
-        str(player1_health), True, (0, 0, 0))
+        str(player1.get_health()), True, (0, 0, 0))
     screen.blit(player1_score_surface, (SCREEN_MAX_X/4 - player1_score_surface.get_width()/2,
                 SCREEN_MAX_Y - player1_score_surface.get_height() - 10))
 
     player2_score_font = pygame.font.SysFont("Verdana", 20)
     player2_score_surface = player2_score_font.render(
-        str(player2_health), True, (0, 0, 0))
+        str(player2.get_health()), True, (0, 0, 0))
     screen.blit(player2_score_surface, (SCREEN_MAX_X-SCREEN_MAX_X/4 - player2_score_surface.get_width()/2,
                 SCREEN_MAX_Y - player2_score_surface.get_height() - 10))
 
