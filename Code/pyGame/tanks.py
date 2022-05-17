@@ -1,5 +1,6 @@
 
 import pygame
+import random
 
 SCREEN_MIN_X = 0
 SCREEN_MAX_X = 500
@@ -104,6 +105,18 @@ class Wall:
     pygame.draw.rect(screen, (128, 16, 32),
                      (self.x, self.y, self.width, self.height), 0)
 
+
+class Water:
+  def __init__(self, x, y, width, height):
+    self.x = x
+    self.y = y
+    self.width = width
+    self.height = height
+
+  def draw(self, screen):
+    pygame.draw.rect(screen, (16, 16, 128),
+                     (self.x, self.y, self.width, self.height), 0)
+
 class Bullet:
   def __init__(self, x, y, direction):
     self.x = x - 5
@@ -149,23 +162,53 @@ class Bullet:
 
     return False
 
+
+def generate_map():
+  objects = []
+  walls = []
+
+  walls_types = [(20, 40, 60, 20),
+                 (40, 20, 20, 60)]
+
+  water_types = [(20,20, 60, 60)]
+
+  wall_probability = 0.4
+  water_probability = 0.1
+
+  for i in range(5):
+    for j in range(5):
+      if (i == 0 and j == 0) or (i == 4 and j == 4):
+        continue
+
+      r = random.random()
+      if (r > wall_probability + water_probability):
+        continue
+
+      if r > water_probability:
+        x, y, w, h = random.choice(walls_types)
+        walls.append(Wall(x + 100*i, y + 100*j, w, h))
+      else:
+        x, y, w, h = random.choice(water_types)
+        objects.append(Water(x + 100*i, y + 100*j, w, h))
+
+  objects.extend(walls)
+
+  return (objects, walls, )
+
 def main_game(screen) -> str:
+  objects, walls = generate_map()
+
   player_width = 50
   player_height = 50
 
   player1 = Player(50, 50, player_width, player_height, (0, 0, 255))
   player2 = Player(400, 400, player_width, player_height, (0, 255, 0))
 
-  player1_health = 3
-  player2_health = 3
-
-  objects = []
   objects.append(player1)
   objects.append(player2)
 
-  walls = []
-  walls.append(Wall(150, 150, 200, 200))
-  objects.extend(walls)
+  player1_health = 3
+  player2_health = 3
 
   bullets = []
 
@@ -184,7 +227,7 @@ def main_game(screen) -> str:
         if event.key == pygame.K_ESCAPE:
           running = False
 
-        if event.key == pygame.K_SPACE:
+        if event.key == pygame.K_l:
             player_1_shoot = True
 
         if event.key == pygame.K_e:
