@@ -153,12 +153,13 @@ class Bullet:
 
     return True
 
-  def collides_with_walls(self, walls) -> bool:
+  def collided_walls(self, walls):
+    collided_walls = []
     for wall in walls:
       if self.collide(wall):
-        return True
+        collided_walls.append(wall)
 
-    return False
+    return collided_walls
 
   def draw(self, screen):
     pygame.draw.rect(screen, (255, 0, 0), (self.x, self.y, self.width, self.height), 0)
@@ -269,7 +270,12 @@ def main_game(screen) -> str:
       elif bullet.collide(player2):
         player2.damage()
         continue
-      elif bullet.collides_with_walls(walls):
+
+      collided_walls = bullet.collided_walls(walls)
+      if collided_walls:
+        for collided_wall in collided_walls:
+          objects.remove(collided_wall)
+          walls.remove(collided_wall)
         continue
 
       if bullet.still_on_screen():
