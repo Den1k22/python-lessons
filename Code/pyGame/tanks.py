@@ -1,6 +1,8 @@
 
 import pygame
 import random
+import threading
+import time
 
 SCREEN_MIN_X = 0
 SCREEN_MAX_X = 500
@@ -173,6 +175,18 @@ class Bullet:
 
     return False
 
+class Timer:
+  def __init__(self, work_status, init_countdown_time):
+    self.work_status = work_status
+    self.countdown_time = init_countdown_time
+
+def countdown_timer(timer):
+  while timer.work_status:
+    timer.countdown_time -= 0.01
+    if timer.countdown_time <= 0:
+      timer.work_status = False
+    else:
+      time.sleep(0.01)
 
 def generate_map():
   objects = []
@@ -225,7 +239,12 @@ def main_game(screen) -> str:
   winner_text = ""
 
   clock = pygame.time.Clock()
+
   running = True
+  timer = Timer(running, 30)
+  t_1 = threading.Thread(target=countdown_timer, args=(timer,))
+  t_1.start()
+
   while running:
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
@@ -289,6 +308,9 @@ def main_game(screen) -> str:
     elif not player2.is_alive():
       winner_text = "player1 won"
       running = False
+    elif not timer.work_status:
+      winner_text = "Draw"
+      running = False
 
     for bullet in bullets:
       bullet.move()
@@ -313,10 +335,17 @@ def main_game(screen) -> str:
     screen.blit(player2_score_surface, (SCREEN_MAX_X-SCREEN_MAX_X/4 - player2_score_surface.get_width()/2,
                 SCREEN_MAX_Y - player2_score_surface.get_height() - 10))
 
+    time_left_font = pygame.font.SysFont("Verdana", 20)
+    time_left_surface = time_left_font.render(
+        str(round(timer.countdown_time, 1)), True, (0, 0, 0))
+    screen.blit(time_left_surface, (SCREEN_MAX_X/2 - time_left_surface.get_width()/2,
+                SCREEN_MAX_Y - time_left_surface.get_height() - 10))
+
     pygame.display.flip()
 
     clock.tick(FPS)
 
+  timer.work_status = False
   return winner_text
 
 
